@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     user_name = input('请输入你的名字：')
     try:
-        collection = chroma_client.get_collection(name=user_name)
+        collection = chroma_client.get_collection(name=user_name, embedding_function=sentence_transformer_ef)
     except Exception as e:
         print("Creating new user")
         collection = chroma_client.create_collection(name=user_name, embedding_function=sentence_transformer_ef)

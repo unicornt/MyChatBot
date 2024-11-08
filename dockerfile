@@ -11,5 +11,6 @@ RUN pip install -q sentence_transformers
 
 COPY src/main.py main.py
 COPY src/tool.py tool.py
+COPY APIKey.env APIKey.env
 
 CMD python3 main.py
