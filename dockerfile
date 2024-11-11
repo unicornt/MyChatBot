@@ -7,7 +7,7 @@ RUN pip install -q openai
 RUN pip install -q langchain_community
 RUN pip install -q chromadb
 RUN pip install -q sentence_transformers
-
+RUN pip install -q langgraph
 
 COPY src/main.py main.py
 COPY src/tool.py tool.py

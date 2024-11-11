@@ -1,7 +1,7 @@
 from openai import OpenAI
 import os
 
-qa_prompt = """你是一个阳光开朗的人，今天你的一位朋友来找你聊天，你需要根据你和他聊天的相关记忆，积极乐观地回复他
+qa_prompt = """你是一个积极开朗、善解人意的人，今天你的一位朋友来找你聊天，你需要根据你和他聊天的相关记忆，积极乐观地回复他
 相关记忆：
 {memory}
 朋友说的话：
@@ -15,15 +15,16 @@ memory_prompt = """你是一个细心的人，今天你的一位朋友来找你�
 {input}
 记忆点："""
 
+api_key = None
+with open('APIKey.env','r',encoding='utf-8') as f:
+    api_key = f.read()
+client = OpenAI(
+    # This is the default and can be omitted
+    api_key=api_key,
+    base_url="https://api.moonshot.cn/v1",
+)
+
 def get_completion(prompt, model="gpt-3.5-turbo"):
-    api_key = None
-    with open('APIKey.env','r',encoding='utf-8') as f:
-        api_key = f.read()
-    client = OpenAI(
-        # This is the default and can be omitted
-        api_key=api_key,
-        base_url="https://api.moonshot.cn/v1",
-    )
 
     chat_completion = client.chat.completions.create(
         messages=[

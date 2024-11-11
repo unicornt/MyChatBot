@@ -1,3 +1,4 @@
+import os, time
 from datetime import datetime
 from langchain_core.prompts import PromptTemplate
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -14,6 +15,7 @@ if __name__ == '__main__':
     
     sentence_transformer_ef = embedding_functions.SentenceTransformerEmbeddingFunction(model_name="sentence-transformers/distiluse-base-multilingual-cased-v1")
 
+    os.system('cls')
     user_name = input('请输入你的名字：')
     try:
         collection = chroma_client.get_collection(name=user_name, embedding_function=sentence_transformer_ef)
@@ -44,8 +46,16 @@ if __name__ == '__main__':
         )
 
         # 生成回复
-        completion = get_completion(qa_prompt.format(memory=results, input=user_input))
-        print(completion)
+        while True:
+            try:
+                completion = get_completion(qa_prompt.format(memory=results, input=user_input))
+                print(completion)
+                break
+            except Exception as e:
+                print(e)
+                print("Retrying...")
+                time.sleep(2)
+                continue
 
         # 生成记忆点并更新到数据库中
         extra_mem = get_completion(memory_prompt.format(input=user_input, history=memory.load_memory_variables({})['history']))
